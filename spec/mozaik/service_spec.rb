@@ -2,9 +2,9 @@
 
 # rubocop:disable RSpec/InstanceVariable, RSpec/LeakyConstantDeclaration, Lint/ConstantDefinitionInBlock
 
-RSpec.describe Mosaik::Service do
+RSpec.describe Mozaik::Service do
   module Specs
-    class SimpleService < ::Mosaik::Service
+    class SimpleService < ::Mozaik::Service
       attribute :some_attribute, type: Types::Any
 
       def perform
@@ -12,7 +12,7 @@ RSpec.describe Mosaik::Service do
       end
     end
 
-    class ServiceWithAttributes < ::Mosaik::Service
+    class ServiceWithAttributes < ::Mozaik::Service
       attribute :string, type: Types::String
       attribute :integer, type: Types::Integer, required: true, default: 314
       attribute :date, type: Types::Date, default: '2019-10-10'
@@ -40,19 +40,19 @@ RSpec.describe Mosaik::Service do
       def some_method; end
     end
 
-    class ServiceWithClassType < ::Mosaik::Service
+    class ServiceWithClassType < ::Mozaik::Service
       attribute :some_attribute, type: SomeClass
 
       def perform; end
     end
 
-    class ServiceWithInterfaceType < ::Mosaik::Service
+    class ServiceWithInterfaceType < ::Mozaik::Service
       attribute :some_attribute, type: Types::Interface(:some_method)
 
       def perform; end
     end
 
-    class ServiceWithHashType < ::Mosaik::Service
+    class ServiceWithHashType < ::Mozaik::Service
       attribute :hash, type: Types.Hash(name: Types::String, age: Types::Integer)
 
       def perform
@@ -60,7 +60,7 @@ RSpec.describe Mosaik::Service do
       end
     end
 
-    class ServiceWithArrayType < ::Mosaik::Service
+    class ServiceWithArrayType < ::Mozaik::Service
       attribute :array_with_class, type: [SomeClass]
       attribute :array_with_type, type: [Types::Integer], default: [1]
       attribute :array_dry_types, type: Types::Array(Types::Symbol)
@@ -74,7 +74,7 @@ RSpec.describe Mosaik::Service do
       end
     end
 
-    class ServiceWithMethodValidation < ::Mosaik::Service
+    class ServiceWithMethodValidation < ::Mozaik::Service
       validate :validation_method
       validate :other_validation_method
 
@@ -97,7 +97,7 @@ RSpec.describe Mosaik::Service do
       def self.call; end
     end
 
-    class ServiceThatCallsAddError < ::Mosaik::Service
+    class ServiceThatCallsAddError < ::Mozaik::Service
       attribute :first, type: Types::Bool, default: false
       attribute :second, type: Types::Bool, default: false
 
@@ -108,14 +108,14 @@ RSpec.describe Mosaik::Service do
       end
     end
 
-    class ServiceWithComposeInvalid < ::Mosaik::Service
+    class ServiceWithComposeInvalid < ::Mozaik::Service
       def perform
         compose ServiceWithMethodValidation
         SomeSingleton.call
       end
     end
 
-    class ServiceWithComposeValid < ::Mosaik::Service
+    class ServiceWithComposeValid < ::Mozaik::Service
       def perform
         result = compose SimpleService
         result * 2
@@ -127,7 +127,7 @@ RSpec.describe Mosaik::Service do
     let(:outcome) { Specs::SimpleService.run(some_attribute: :ok) }
 
     it 'returns Result object' do
-      expect(outcome).to be_a Mosaik::Service::Result
+      expect(outcome).to be_a Mozaik::Service::Result
     end
 
     it 'pass return value from #perform method to Result object' do
@@ -221,13 +221,13 @@ RSpec.describe Mosaik::Service do
   describe 'run!' do
     context 'when service is failure' do
       it 'raise error' do
-        expect { Specs::ServiceWithMethodValidation.run! }.to raise_error(::Mosaik::Service::Failure)
+        expect { Specs::ServiceWithMethodValidation.run! }.to raise_error(::Mozaik::Service::Failure)
       end
 
       describe 'error' do
         it 'has correct message' do
           Specs::ServiceWithMethodValidation.run!
-        rescue ::Mosaik::Service::Failure => e
+        rescue ::Mozaik::Service::Failure => e
           expect(e.message).to eq(
             'failed with errors {:some_attribute=>[{:type=>:validation_method_failed}, {:type=>:other_method}]}'
           )
@@ -235,7 +235,7 @@ RSpec.describe Mosaik::Service do
 
         it 'has errors' do
           Specs::ServiceWithMethodValidation.run!
-        rescue ::Mosaik::Service::Failure => e
+        rescue ::Mozaik::Service::Failure => e
           expect(e.errors).to eq(some_attribute: [{ type: :validation_method_failed }, { type: :other_method }])
         end
       end

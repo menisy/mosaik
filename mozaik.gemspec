@@ -2,11 +2,11 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'mosaik/service/version'
+require 'mozaik/service/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'mosaik'
-  spec.version       = Mosaik::Service::VERSION
+  spec.name          = 'mozaik'
+  spec.version       = Mozaik::Service::VERSION
   spec.authors       = ['Mohamed Elmenisy']
   spec.email         = ['mohamed.elmenisy@hive.app']
 

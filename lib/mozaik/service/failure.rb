@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Mosaik
+module Mozaik
   class Service
     class Failure < StandardError
       attr_reader :errors

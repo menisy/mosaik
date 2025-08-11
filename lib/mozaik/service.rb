@@ -7,14 +7,14 @@ require 'active_support/core_ext/hash/deep_merge'
 require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/string/inflections'
 
-require 'mosaik/service/version'
-require 'mosaik/service/errors'
-require 'mosaik/service/types'
-require 'mosaik/service/result'
-require 'mosaik/service/failure'
-require 'mosaik/service/attribute_value'
+require 'mozaik/service/version'
+require 'mozaik/service/errors'
+require 'mozaik/service/types'
+require 'mozaik/service/result'
+require 'mozaik/service/failure'
+require 'mozaik/service/attribute_value'
 
-module Mosaik
+module Mozaik
   class Service
     class Halt < StandardError; end
 
