@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Hive
+module Mosaik
   class Service
     class Failure < StandardError
       attr_reader :errors
@@ -16,3 +16,5 @@ module Hive
     end
   end
 end
+
+

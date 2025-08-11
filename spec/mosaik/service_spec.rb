@@ -2,9 +2,9 @@
 
 # rubocop:disable RSpec/InstanceVariable, RSpec/LeakyConstantDeclaration, Lint/ConstantDefinitionInBlock
 
-RSpec.describe Hive::Service do
+RSpec.describe Mosaik::Service do
   module Specs
-    class SimpleService < ::Hive::Service
+    class SimpleService < ::Mosaik::Service
       attribute :some_attribute, type: Types::Any
 
       def perform
@@ -12,7 +12,7 @@ RSpec.describe Hive::Service do
       end
     end
 
-    class ServiceWithAttributes < ::Hive::Service
+    class ServiceWithAttributes < ::Mosaik::Service
       attribute :string, type: Types::String
       attribute :integer, type: Types::Integer, required: true, default: 314
       attribute :date, type: Types::Date, default: '2019-10-10'
@@ -40,19 +40,19 @@ RSpec.describe Hive::Service do
       def some_method; end
     end
 
-    class ServiceWithClassType < ::Hive::Service
+    class ServiceWithClassType < ::Mosaik::Service
       attribute :some_attribute, type: SomeClass
 
       def perform; end
     end
 
-    class ServiceWithInterfaceType < ::Hive::Service
+    class ServiceWithInterfaceType < ::Mosaik::Service
       attribute :some_attribute, type: Types::Interface(:some_method)
 
       def perform; end
     end
 
-    class ServiceWithHashType < ::Hive::Service
+    class ServiceWithHashType < ::Mosaik::Service
       attribute :hash, type: Types.Hash(name: Types::String, age: Types::Integer)
 
       def perform
@@ -60,7 +60,7 @@ RSpec.describe Hive::Service do
       end
     end
 
-    class ServiceWithArrayType < ::Hive::Service
+    class ServiceWithArrayType < ::Mosaik::Service
       attribute :array_with_class, type: [SomeClass]
       attribute :array_with_type, type: [Types::Integer], default: [1]
       attribute :array_dry_types, type: Types::Array(Types::Symbol)
@@ -74,7 +74,7 @@ RSpec.describe Hive::Service do
       end
     end
 
-    class ServiceWithMethodValidation < ::Hive::Service
+    class ServiceWithMethodValidation < ::Mosaik::Service
       validate :validation_method
       validate :other_validation_method
 
@@ -97,7 +97,7 @@ RSpec.describe Hive::Service do
       def self.call; end
     end
 
-    class ServiceThatCallsAddError < ::Hive::Service
+    class ServiceThatCallsAddError < ::Mosaik::Service
       attribute :first, type: Types::Bool, default: false
       attribute :second, type: Types::Bool, default: false
 
@@ -108,14 +108,14 @@ RSpec.describe Hive::Service do
       end
     end
 
-    class ServiceWithComposeInvalid < ::Hive::Service
+    class ServiceWithComposeInvalid < ::Mosaik::Service
       def perform
         compose ServiceWithMethodValidation
         SomeSingleton.call
       end
     end
 
-    class ServiceWithComposeValid < ::Hive::Service
+    class ServiceWithComposeValid < ::Mosaik::Service
       def perform
         result = compose SimpleService
         result * 2
@@ -127,7 +127,7 @@ RSpec.describe Hive::Service do
     let(:outcome) { Specs::SimpleService.run(some_attribute: :ok) }
 
     it 'returns Result object' do
-      expect(outcome).to be_a Hive::Service::Result
+      expect(outcome).to be_a Mosaik::Service::Result
     end
 
     it 'pass return value from #perform method to Result object' do
@@ -221,13 +221,13 @@ RSpec.describe Hive::Service do
   describe 'run!' do
     context 'when service is failure' do
       it 'raise error' do
-        expect { Specs::ServiceWithMethodValidation.run! }.to raise_error(::Hive::Service::Failure)
+        expect { Specs::ServiceWithMethodValidation.run! }.to raise_error(::Mosaik::Service::Failure)
       end
 
       describe 'error' do
         it 'has correct message' do
           Specs::ServiceWithMethodValidation.run!
-        rescue ::Hive::Service::Failure => e
+        rescue ::Mosaik::Service::Failure => e
           expect(e.message).to eq(
             'failed with errors {:some_attribute=>[{:type=>:validation_method_failed}, {:type=>:other_method}]}'
           )
@@ -235,7 +235,7 @@ RSpec.describe Hive::Service do
 
         it 'has errors' do
           Specs::ServiceWithMethodValidation.run!
-        rescue ::Hive::Service::Failure => e
+        rescue ::Mosaik::Service::Failure => e
           expect(e.errors).to eq(some_attribute: [{ type: :validation_method_failed }, { type: :other_method }])
         end
       end
@@ -525,7 +525,7 @@ RSpec.describe Hive::Service do
 
         let(:params) do
           {
-            array_with_class:,
+            array_with_class: array_with_class,
             array_with_type: ['1', 2, '3'],
             array_dry_types: ['symbol', :other_symbol]
           }
@@ -537,7 +537,7 @@ RSpec.describe Hive::Service do
 
         it 'coerces array members' do
           expect(outcome.result).to eq(
-            array_with_class:,
+            array_with_class: array_with_class,
             array_with_type: [1, 2, 3],
             array_dry_types: %i(symbol other_symbol)
           )
@@ -548,3 +548,5 @@ RSpec.describe Hive::Service do
 end
 
 # rubocop:enable RSpec/InstanceVariable, RSpec/LeakyConstantDeclaration, Lint/ConstantDefinitionInBlock
+
+

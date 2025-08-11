@@ -2,15 +2,15 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'hive/service/version'
+require 'mosaik/service/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'hive-service'
-  spec.version       = Hive::Service::VERSION
+  spec.name          = 'mosaik'
+  spec.version       = Mosaik::Service::VERSION
   spec.authors       = ['Mohamed Elmenisy']
   spec.email         = ['mohamed.elmenisy@hive.app']
 
-  spec.summary       = 'Hive service layer'
+  spec.summary       = 'Service layer abstraction'
   spec.license       = 'MIT'
 
   spec.files         = Dir.chdir(File.expand_path(__dir__)) do
@@ -22,8 +22,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'activesupport'
-  spec.add_runtime_dependency 'dry-struct'
-  spec.add_runtime_dependency 'dry-types'
+  spec.add_runtime_dependency 'dry-struct', '>= 1.0', '< 2.0'
+  spec.add_runtime_dependency 'dry-types', '>= 1.0', '< 2.0'
   spec.add_runtime_dependency 'i18n'
 
   spec.add_development_dependency 'bundler', '~> 2.0'

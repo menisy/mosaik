@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Hive
+module Mosaik
   class Service
     class Errors
       def initialize(service)
@@ -96,3 +96,5 @@ module Hive
     end
   end
 end
+
+

@@ -7,20 +7,20 @@ require 'active_support/core_ext/hash/deep_merge'
 require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/string/inflections'
 
-require 'hive/service/version'
-require 'hive/service/errors'
-require 'hive/service/types'
-require 'hive/service/result'
-require 'hive/service/failure'
-require 'hive/service/attribute_value'
+require 'mosaik/service/version'
+require 'mosaik/service/errors'
+require 'mosaik/service/types'
+require 'mosaik/service/result'
+require 'mosaik/service/failure'
+require 'mosaik/service/attribute_value'
 
-module Hive
+module Mosaik
   class Service
     class Halt < StandardError; end
 
     def self.attribute(name, type:, required: false, default: nil)
       @attributes ||= {}
-      @attributes[name] = { type:, required:, default: }
+      @attributes[name] = { type: type, required: required, default: default }
     end
 
     def self.attributes
@@ -99,11 +99,11 @@ module Hive
     end
 
     def return_success(result)
-      Result.new(result:, success: true, errors: nil)
+      Result.new(result: result, success: true, errors: nil)
     end
 
     def return_failure(errors)
-      Result.new(result: nil, success: false, errors:)
+      Result.new(result: nil, success: false, errors: errors)
     end
 
     def initialize_errors
@@ -129,3 +129,5 @@ module Hive
     end
   end
 end
+
+
