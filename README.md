@@ -1,6 +1,6 @@
 # Mozaik::Service
 
-This gem aims to simplify and standardize the service interface to be used across the service layer in our ruby projects. It provides composition, typing, and built in validations to ensure that our complex service logic is both flexible and safe.
+This gem aims to simplify and standardize the service interface to be used across the service layer in ruby projects. It provides composition, typing, and built in validations to ensure that our complex service logic is both flexible and safe.
 
 ## Installation
 
