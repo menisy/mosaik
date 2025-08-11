@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Mosaik
+module Mozaik
   class Service
     module Types
       # Expose Dry types with coercible defaults matching original behavior

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Mosaik
+module Mozaik
   class Service
     class Errors
       def initialize(service)
