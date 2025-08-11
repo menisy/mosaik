@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Hive
+module Mosaik
   class Service
     class Result < Dry::Struct
       attribute :success, Types::Bool
@@ -21,3 +21,5 @@ module Hive
     end
   end
 end
+
+

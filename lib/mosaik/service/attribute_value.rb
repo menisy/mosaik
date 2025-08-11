@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Hive
+module Mosaik
   class Service
     class AttributeValue
       AttributeBlank = Class.new(StandardError)
@@ -13,9 +13,9 @@ module Hive
 
       def call
         value = @value
-        value = @options[:default] if value.nil? && @options[:default]
+        value = @options[:default] if value.nil? && @options.key?(:default)
         type[value]
-      rescue Dry::Types::CoercionError
+      rescue Dry::Types::CoercionError, Dry::Types::MissingKeyError, Dry::Types::SchemaError
         raise AttributeBlank if @value.nil? && @options[:required]
 
         raise AttributeWithWrongType
@@ -31,11 +31,16 @@ module Hive
 
       def determine_type(type)
         case type
-        when Dry::Types::Type then type
-        when Array then Types::Array(determine_type(type.first))
-        else Types.Instance(type)
+        when Dry::Types::Type
+          type
+        when Array
+          Types::Array(determine_type(type.first))
+        else
+          Types.Instance(type)
         end
       end
     end
   end
 end
+
+

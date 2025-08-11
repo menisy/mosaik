@@ -1,4 +1,4 @@
-# Hive::Service
+# Mosaik::Service
 
 This gem aims to simplify and standardize the service interface to be used across the service layer in our ruby projects. It provides composition, typing, and built in validations to ensure that our complex service logic is both flexible and safe.
 
@@ -7,7 +7,7 @@ This gem aims to simplify and standardize the service interface to be used acros
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'hive-service'
+gem 'mosaik'
 ```
 
 And then execute:
@@ -16,8 +16,8 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install hive-service
-    
+    $ gem install mosaik
+
 To install the gem locally you need to have your bundle configured to fetch from our org's private repos. Follow the following steps to do so:
 1. Go to your github settings -> Developer settings -> Personal access tokens
 2. Create a new token and check the repo permissions
@@ -30,10 +30,10 @@ $ bundle config github.com 'YOUR_TOKEN_HERE'
 
 ## Usage
 
-We need to create a base service that will inherit from `::Hive::Service`:
+We need to create a base service that will inherit from `::Mosaik::Service`:
 
 ```ruby
-class BaseService < ::Hive::Service
+class BaseService < ::Mosaik::Service
 
 end
 ```
@@ -64,7 +64,7 @@ Usage:
 ```ruby
 ExampleService.run(counter: 9)
 
-=> Hive::Service::Result.new(result: 10, errors: nil, success: true)
+=> Mosaik::Service::Result.new(result: 10, errors: nil, success: true)
 ```
 
 The following happens:
@@ -84,14 +84,14 @@ is also a valid service invocation
 
 ## .run!
 
-The `run!` method will raise an error `Hive::Service::Failure` if validation fails, otherwise it will return the returned value from the `perform` method without wrapping it in a `Result` object.
+The `run!` method will raise an error `Mosaik::Service::Failure` if validation fails, otherwise it will return the returned value from the `perform` method without wrapping it in a `Result` object.
 
-`Hive::Service::Failure` will have access to errors:
+`Mosaik::Service::Failure` will have access to errors:
 
 ```ruby
 begin
  ExampleService.run!('counter' => 11)
-rescue Hive::Service::Failure => error
+rescue Mosaik::Service::Failure => error
   error.errors.to_h
 end
 
@@ -309,5 +309,6 @@ You can use any type that comes from `dry-types`. For reference please see: [dry
 
 ### Examples
 
-You can find implementation examples in `spec/hive/service_spec.rb`
+You can find implementation examples in `spec/mosaik/service_spec.rb`
+
 
